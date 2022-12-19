@@ -15,7 +15,7 @@ def main():
         else:
             alert(f"Assembling {arg}")
             for i, ln in enumerate(asm_to_bin(open(arg).readlines()).splitlines()):
-                print('when x"{}" => D <= "{}";    -- {}'.format(
+                print('when x"{}" => D <= "{}";'.format(
                     ("" if i >= 16 else "0")+hex(i)[2:],
                     ln
                 ))
