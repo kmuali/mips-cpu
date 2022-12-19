@@ -13,9 +13,9 @@ def main():
         if not os.path.isfile(arg):
             alert(f"File {arg} is not a file")
         else:
-            alert(f"Made program {arg}")
+            alert(f"Assembling {arg}")
             for i, ln in enumerate(asm_to_bin(open(arg).readlines()).splitlines()):
-                print('when x"{}" => D <= "{}";'.format(
+                print('when x"{}" => D <= "{}";    -- {}'.format(
                     ("" if i >= 16 else "0")+hex(i)[2:],
                     ln
                 ))
