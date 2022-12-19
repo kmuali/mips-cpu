@@ -2,10 +2,6 @@ library IEEE;
 use IEEE.std_logic_1164.ALL;
 use IEEE.std_logic_unsigned.ALL;
 
--- 16-bit unsigned divider
--- using iterative subtraction with MUXs
--- designed by @kmuali: Karim M. Ali in 16-12-2022
-
 entity div16 is
   port (
     A, B: in std_logic_vector(16-1 downto 0);
