@@ -26,10 +26,10 @@ RES_KW = "add sub mul div and or xor cpl addi subi andi ori xori \
     li lm sm beq blt bgt bc bz br nop".split()
 
 def error(index, message):
-    exit(f"[ERROR] {message} at line {index + 1}")
+    exit(f"-- Error: {message} at line {index + 1}")
 
 def alert(message):
-    print(f"[ALERT] {message}")
+    print(f"-- Alert: {message}")
 
 def islabel(s):
     s=s.replace("_","")
