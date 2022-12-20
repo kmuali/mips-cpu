@@ -37,8 +37,12 @@ begin
   inst_rt <= IR(8 downto 6);
   inst_rd <= IR(5 downto 3);
   inst_op <= IR(2 downto 0);
-  inst_RRI_imm <= "0000" & "0000" & "00" & IR(6-1 downto 0);
-  inst_RI_imm <= "0000" & "000" & IR(9-1 downto 0);
+  with IR(6-1) select
+    inst_RRI_imm <= "1111" & "1111" & "11" & IR(6-1 downto 0) when '1',
+                    "0000" & "0000" & "00" & IR(6-1 downto 0) when others;
+  with IR(9-1) select
+    inst_RI_imm <= "1111" & "111" & IR(9-1 downto 0) when '1',
+                   "0000" & "000" & IR(9-1 downto 0) when others;
   inst_RI_UJ_addr <= IR(8-1 downto 0); -- RI and uncondtional jump address
   inst_CJ_addr <= "00" & IR(6-1 downto 0); -- conditional jump address
 

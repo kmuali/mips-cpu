@@ -38,13 +38,24 @@ def islabel(s):
 def isreg(s):
     return s.isdigit() and 0<=int(s)<8
 
+def isintable(s):
+    return (len(s)<=1 and s.isdigit()) or ((s[0]=='-' or s[0].isdigit()) and s[1:].isdigit())
+
 def isimm(s, n):
-    n=n if n<8 else 8
-    return s.isdigit() and 0<=int(s)<2**n
+    return isintable(s) and -2**(n-1)<=int(s)<2**(n-1)
 
 def tobin(s, n):
     s=bin(int(s))[2:]
     return "0"*(n-len(s))+s
+
+def tosbin(s, n):
+    isneg=int(s)<0
+    s=bin(abs(int(s)))[2:]
+    s="0"*(n-len(s))+s
+    if isneg:
+        s=''.join(map(lambda c:str(1-int(c)), s))
+        return tobin(int(s, 2)+1, n)
+    return s
 
 def make_bin(labels, blocks):
     bin_lns=[]
@@ -62,7 +73,7 @@ def make_bin(labels, blocks):
             if len(args)==4 and args[0]=="$" and \
                     isreg(args[1]) and args[2]=="," and \
                     isimm(args[3],9):
-                bin_ln="0111"+tobin(args[1],3)+tobin(args[3],9)
+                bin_ln="0111"+tobin(args[1],3)+tosbin(args[3],9)
             else:
                 return error(i, f"Invalid {cmd} arguments")
         elif cmd in ("beq", "bgt", "blt"): # $ r , $ r , l
@@ -93,7 +104,7 @@ def make_bin(labels, blocks):
             if len(args)==7 and args[0]==args[3]=="$" and args[2]==args[5]=="," and \
                     isreg(args[1]) and isreg(args[4]) and isimm(args[6],6):
                 bin_ln=tobin("addi subi andi ori xori".split().index(cmd)+2,4)+\
-                    tobin(args[1],3)+tobin(args[4],3)+tobin(args[6],6)
+                    tobin(args[1],3)+tobin(args[4],3)+tosbin(args[6],6)
             else:
                 return error(i, f"Invalid {cmd} arguments")
         else:
