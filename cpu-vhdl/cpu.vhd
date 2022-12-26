@@ -6,7 +6,8 @@ use IEEE.numeric_std.ALL;
 
 entity cpu is
   port (
-    clk, reset, pause: std_logic
+    clk, reset: in std_logic;
+    ram_L0: out std_logic_vector(16-1 downto 0)
   );
 end entity cpu;
 
@@ -25,7 +26,7 @@ architecture behav of cpu is
     clk, E: in std_logic;
     A: in std_logic_vector(8-1 downto 0);
     W: in std_logic_vector(16-1 downto 0);
-    R: out std_logic_vector(16-1 downto 0)
+    R, ram_L0: out std_logic_vector(16-1 downto 0)
   );
   end component;
   component reg8x16 is
@@ -70,17 +71,17 @@ architecture behav of cpu is
 begin
   alux: alu16 port map(alu_S, reg_R1, alu_B, alu_F, alu_C);
   regx: reg8x16 port map(clk, reg_E, reg_RA1, reg_RA2, reg_WA, reg_W, reg_R1, reg_R2);
-  memx: ram256x16 port map(clk, mem_E, mem_A, reg_R1, mem_R);
+  memx: ram256x16 port map(clk, mem_E, mem_A, reg_R1, mem_R, ram_L0);
   romx: rom256x16 port map(clk, PC, IR);
   cux: cu port map(clk, cu_executing, cu_exe_done, cu_PC_changed, cu_PC_new, IR, alu_S, alu_B, alu_F, alu_C,
                   mem_A, mem_E, mem_R, reg_W, reg_WA, reg_RA1, reg_RA2, reg_R2, reg_E);
-  process (clk)
+  process (clk, reset)
   begin
-    if rising_edge(clk) and pause = '0' then
-      if reset = '1' then
-        PC <= x"00";
-        cu_executing <= '1';
-      elsif cu_executing = '0' then -- fetch stage
+    if reset = '1' then
+      PC <= x"00";
+      cu_executing <= '1';
+    elsif rising_edge(clk) then
+      if cu_executing = '0' then -- fetch stage
         PC <= PC + 1;
         cu_executing <= '1';
       else -- decode and execute stages for cu

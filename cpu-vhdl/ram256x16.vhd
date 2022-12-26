@@ -8,7 +8,7 @@ entity ram256x16 is
     clk, E: in std_logic;
     A: in std_logic_vector(8-1 downto 0);
     W: in std_logic_vector(16-1 downto 0);
-    R: out std_logic_vector(16-1 downto 0)
+    R, ram_L0: out std_logic_vector(16-1 downto 0)
   );
 end entity ram256x16;
 
@@ -21,8 +21,10 @@ begin
     if rising_edge(clk) then 
       if E = '1' then
         ram(to_integer(unsigned(A))) <= W;
+      else
+        R <= ram(to_integer(unsigned(A)));
+        ram_L0 <= ram(0);
       end if;
-      R <= ram(to_integer(unsigned(A)));
     end if;
   end process;
 end behav;
