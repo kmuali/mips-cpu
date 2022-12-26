@@ -164,8 +164,8 @@ begin
            when x"0000" => FR(0) <= '1'; -- Zero_flag is set true if last ALU's output is zero
            when others =>  FR(0) <= '0'; -- otherwise it is false (means positive or negative output)
          end case;
-         FR(1) <= alu_C;
-         FR(2) <= alu_F(15);
+         FR(1) <= alu_C; -- carry_flag
+         FR(2) <= alu_F(15); -- sign_flag (sign bit)
        when others =>
       end case;
 
