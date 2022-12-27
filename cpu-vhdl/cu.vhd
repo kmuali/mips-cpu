@@ -139,7 +139,7 @@ begin
   with inst_opcode select
     exe_done <= step3 when x"A" | x"B" | x"C", -- BEQ, BLT, BGT each takes 3 clocks
                                                -- (1st load registers... 2nd subtract them.. 3rd decide to jump or not based on new FR)
-                step1 when x"D" | x"E" | x"F", -- BC, BZ, BR each takes 2 clocks
+                step1 when x"D" | x"E" | x"F", -- BC, BZ, BR each takes 1 clock
                                                -- (1st decide to jump or not based on old FR)
                 step2 when others; -- other commands take 2 clock each
                                    -- for example arith (1st load registers and select ALU op.. 2nd store ALU output in a register)
