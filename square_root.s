@@ -25,6 +25,6 @@ loop_sub:
 
 loop_cond:
   bz end
-  br loop
+  br loop_body
 
 end:
