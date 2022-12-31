@@ -9,7 +9,8 @@ entity cpu_fpga is
 );
   port (
   real_clk, reset: in std_logic;
-  ram_L0_rbyte: out std_logic_vector(8-1 downto 0)
+  ram_L0_rbyte: out std_logic_vector(8-1 downto 0);
+  pc_rrip: out std_logic_vector(4-1 downto 0)
 );
 end entity cpu_fpga;
 
@@ -18,7 +19,8 @@ architecture behv of cpu_fpga is
   component cpu is
   port (
     clk, reset: in std_logic;
-    ram_L0: out std_logic_vector(16-1 downto 0)
+    ram_L0: out std_logic_vector(16-1 downto 0);
+    pc_rrip: out std_logic_vector(4-1 downto 0)
   );
   end component;
 
@@ -28,7 +30,8 @@ architecture behv of cpu_fpga is
 
 begin
 
-  cpu1: cpu port map(slow_clk, reset, ram_L0);
+  -- cpu1: cpu port map(slow_clk, reset, ram_L0, pc_rrip);
+  cpu1: cpu port map(real_clk, reset, ram_L0, pc_rrip);
   ram_L0_rbyte <= ram_L0(ram_L0_rbyte'range);
 
   process (real_clk, reset)

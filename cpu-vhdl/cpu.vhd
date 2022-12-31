@@ -7,7 +7,8 @@ use IEEE.numeric_std.ALL;
 entity cpu is
   port (
     clk, reset: in std_logic;
-    ram_L0: out std_logic_vector(16-1 downto 0)
+    ram_L0: out std_logic_vector(16-1 downto 0);
+    pc_rrip: out std_logic_vector(4-1 downto 0)
   );
 end entity cpu;
 
@@ -63,12 +64,15 @@ architecture behav of cpu is
     reg_E: out std_logic
   );
   end component;
-  signal alu_C, mem_E, reg_E : std_logic;
+
+  signal alu_C, mem_E, reg_E: std_logic;
   signal alu_S, reg_WA, reg_RA1, reg_RA2 : std_logic_vector (3-1 downto 0);
   signal alu_B, alu_F, reg_R1, reg_R2, reg_W, mem_R, IR: std_logic_vector (16-1 downto 0);
   signal mem_A, PC, cu_PC_new: std_logic_vector (8-1 downto 0);
   signal cu_executing, cu_exe_done, cu_PC_changed: std_logic;
 begin
+
+  pc_rrip <= PC(pc_rrip'range);
   alux: alu16 port map(alu_S, reg_R1, alu_B, alu_F, alu_C);
   regx: reg8x16 port map(clk, reg_E, reg_RA1, reg_RA2, reg_WA, reg_W, reg_R1, reg_R2);
   memx: ram256x16 port map(clk, mem_E, mem_A, reg_R1, mem_R, ram_L0);
