@@ -29,6 +29,5 @@ comprehensive CPU implementation.
 
 ## License
 
-This design is licensed under the GNU General Public License v3. You are free to edit, distribute, and modify it in accordance with the terms of the GPL3 license.
-
-Main Avatar 
+This design is licensed under the GNU General Public License v3. 
+You are free to edit, distribute, and modify it in accordance with the terms of the GPL3 license.
