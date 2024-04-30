@@ -1,3 +1,6 @@
+> [!NOTE]
+> This project is archived.
+
 # MIPS CPU
 
 This repository contains the implementation of a MIPS CPU based on the lab 
